@@ -338,20 +338,23 @@ void rf_path_set_antenna(const uint_fast8_t enable) {
  */
 void rf_path_set_disconnect_rx_antenna(const uint_fast8_t enable)
 {
-	//allow only when RX is active and amp is disabled
 	//todo also disable rx amp when active?
-	if (switchctrl & SWITCHCTRL_TX || switchctrl & SWITCHCTRL_AMP_BYPASS)
+	if (switchctrl & SWITCHCTRL_TX)
 		return;
 	if (enable)
 	{
-		/* AMP_BYPASS=0, NO_RX_AMP_PWR=1, NO_TX_AMP_PWR=1 */
-		switchctrl &= ~(SWITCHCTRL_AMP_BYPASS);
+		/**
+		 * set rf path from antenna to rx amp, but disable power to rx amp
+		 */
+		gpio_clear(PORT_AMP_BYPASS, PIN_AMP_BYPASS);
+		gpio_clear(PORT_TX_AMP, PIN_TX_AMP);
+		gpio_set(PORT_NO_TX_AMP_PWR, PIN_NO_TX_AMP_PWR);
+		gpio_set(PORT_RX_AMP, PIN_RX_AMP);
+		gpio_set(PORT_NO_RX_AMP_PWR, PIN_NO_RX_AMP_PWR);
 	}
 	else
 	{
-		/* AMP_BYPASS=1, NO_RX_AMP_PWR=1, NO_TX_AMP_PWR=1 */
-		switchctrl |= SWITCHCTRL_AMP_BYPASS;
+		switchctrl_set(switchctrl);
 	}
 
-	switchctrl_set(switchctrl);
 }

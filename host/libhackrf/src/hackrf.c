@@ -1108,6 +1108,29 @@ int ADDCALL hackrf_set_amp_enable(hackrf_device* device, const uint8_t value)
 	}
 }
 
+int ADDCALL hackrf_set_disconnect_rx_antenna(hackrf_device* device, const uint8_t value)
+{
+	int result;
+	result = libusb_control_transfer(
+		device->usb_device,
+		LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE,
+		HACKRF_VENDOR_REQUEST_SET_DISCONNECT_RX_ANTENNA,
+		value,
+		0,
+		NULL,
+		0,
+		0
+	);
+
+	if (result != 0)
+	{
+		return HACKRF_ERROR_LIBUSB;
+	} else {
+		return HACKRF_SUCCESS;
+	}
+}
+
+
 int ADDCALL hackrf_board_partid_serialno_read(hackrf_device* device, read_partid_serialno_t* read_partid_serialno)
 {
 	uint8_t length;
@@ -1228,27 +1251,6 @@ int ADDCALL hackrf_set_txvga_gain(hackrf_device* device, uint32_t value)
 	}
 }
 
-int ADDCALL hackrf_set_disconnect_rx_antenna(hackrf_device* device, const uint8_t value)
-{
-	int result;
-	result = libusb_control_transfer(
-		device->usb_device,
-		LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE,
-		HACKRF_VENDOR_REQUEST_SET_DISCONNECT_RX_ANTENNA,
-		value,
-		0,
-		NULL,
-		0,
-		0
-	);
-
-	if (result != 0)
-	{
-		return HACKRF_ERROR_LIBUSB;
-	} else {
-		return HACKRF_SUCCESS;
-	}
-}
 
 int ADDCALL hackrf_set_antenna_enable(hackrf_device* device, const uint8_t value)
 {
