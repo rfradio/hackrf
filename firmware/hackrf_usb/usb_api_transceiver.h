@@ -50,6 +50,8 @@ usb_request_status_t usb_vendor_request_set_txvga_gain(
 	usb_endpoint_t* const endpoint,	const usb_transfer_stage_t stage);
 usb_request_status_t usb_vendor_request_set_antenna_enable(
 	usb_endpoint_t* const endpoint, const usb_transfer_stage_t stage);
+usb_request_status_t usb_vendor_request_set_disconnect_rx_antenna(
+	usb_endpoint_t* const endpoint, const usb_transfer_stage_t stage);
 usb_request_status_t usb_vendor_request_set_freq_explicit(
 	usb_endpoint_t* const endpoint, const usb_transfer_stage_t stage);
 

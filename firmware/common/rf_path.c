@@ -332,3 +332,26 @@ void rf_path_set_antenna(const uint_fast8_t enable) {
 
 	switchctrl_set(switchctrl);
 }
+
+/**
+ * Disconnects antenna from the rx path.
+ */
+void rf_path_set_disconnect_rx_antenna(const uint_fast8_t enable)
+{
+	//allow only when RX is active and amp is disabled
+	//todo also disable rx amp when active?
+	if (switchctrl & SWITCHCTRL_TX || switchctrl & SWITCHCTRL_AMP_BYPASS)
+		return;
+	if (enable)
+	{
+		/* AMP_BYPASS=0, NO_RX_AMP_PWR=1, NO_TX_AMP_PWR=1 */
+		switchctrl &= ~(SWITCHCTRL_AMP_BYPASS);
+	}
+	else
+	{
+		/* AMP_BYPASS=1, NO_RX_AMP_PWR=1, NO_TX_AMP_PWR=1 */
+		switchctrl |= SWITCHCTRL_AMP_BYPASS;
+	}
+
+	switchctrl_set(switchctrl);
+}

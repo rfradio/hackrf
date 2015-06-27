@@ -4,6 +4,8 @@
 *.elf
 *.hex
 *.srec
+*.cproject
+*.project
 host/build/
 
 # Operating system spew

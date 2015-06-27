@@ -67,6 +67,7 @@ typedef enum {
 	HACKRF_VENDOR_REQUEST_SET_TXVGA_GAIN = 21,
 	HACKRF_VENDOR_REQUEST_ANTENNA_ENABLE = 23,
 	HACKRF_VENDOR_REQUEST_SET_FREQ_EXPLICIT = 24,
+	HACKRF_VENDOR_REQUEST_SET_DISCONNECT_RX_ANTENNA = 25,
 } hackrf_vendor_request;
 
 typedef enum {
@@ -1222,6 +1223,28 @@ int ADDCALL hackrf_set_txvga_gain(hackrf_device* device, uint32_t value)
 	if( result != 1 || !retval )
 	{
 		return HACKRF_ERROR_INVALID_PARAM;
+	} else {
+		return HACKRF_SUCCESS;
+	}
+}
+
+int ADDCALL hackrf_set_disconnect_rx_antenna(hackrf_device* device, const uint8_t value)
+{
+	int result;
+	result = libusb_control_transfer(
+		device->usb_device,
+		LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE,
+		HACKRF_VENDOR_REQUEST_SET_DISCONNECT_RX_ANTENNA,
+		value,
+		0,
+		NULL,
+		0,
+		0
+	);
+
+	if (result != 0)
+	{
+		return HACKRF_ERROR_LIBUSB;
 	} else {
 		return HACKRF_SUCCESS;
 	}

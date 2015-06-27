@@ -137,6 +137,7 @@ static const usb_request_handler_fn vendor_request_handler[] = {
 	NULL,
 #endif
 	usb_vendor_request_set_freq_explicit,
+	usb_vendor_request_set_disconnect_rx_antenna,
 };
 
 static const uint32_t vendor_request_handler_count =
