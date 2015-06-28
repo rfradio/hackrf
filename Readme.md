@@ -8,3 +8,8 @@ produce a low cost, open source software radio platform.
 principal author: Michael Ossmann <mike@ossmann.com>
 
 http://greatscottgadgets.com/hackrf/
+
+
+
+
++added option to api and firmware to disable physical connection to antenna
